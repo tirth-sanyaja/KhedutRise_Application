@@ -1,0 +1,5 @@
+# Ensure GitHub Linguist accurately detects Kotlin and other source languages
+android/** linguist-vendored=false
+*.kt linguist-detectable=true linguist-language=Kotlin
+*.kts linguist-detectable=true linguist-language=Kotlin
+*.xml linguist-detectable=true linguist-language=XML
