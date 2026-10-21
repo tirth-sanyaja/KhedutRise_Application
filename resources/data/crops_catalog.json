@@ -1,0 +1,49 @@
+{
+  "region": "Saurashtra - Rajkot, Gujarat",
+  "crops": [
+    {
+      "id": "CRP-01",
+      "name": "Cotton (Kapas - BT)",
+      "gujaratiName": "કપાસ (બીટી)",
+      "season": "Kharif",
+      "durationDays": 160,
+      "soilType": "Deep Black Cotton Soil",
+      "waterRequirement": "Medium (Drip Recommended)",
+      "expectedYieldPerAcre": "12-15 Quintals",
+      "image": "resources/images/cotton_crop.png"
+    },
+    {
+      "id": "CRP-02",
+      "name": "Groundnut (Magfali - G20)",
+      "gujaratiName": "મગફળી (જી-૨૦)",
+      "season": "Kharif / Summer",
+      "durationDays": 115,
+      "soilType": "Medium Black & Sandy Loam",
+      "waterRequirement": "Low to Medium",
+      "expectedYieldPerAcre": "10-14 Quintals",
+      "image": "resources/images/groundnut_crop.png"
+    },
+    {
+      "id": "CRP-03",
+      "name": "Wheat (Ghau - Lokwan)",
+      "gujaratiName": "ઘઉં (લોકવન)",
+      "season": "Rabi",
+      "durationDays": 120,
+      "soilType": "Fertile Loamy / Black Soil",
+      "waterRequirement": "5-6 Irrigations",
+      "expectedYieldPerAcre": "18-22 Quintals",
+      "image": "resources/images/wheat_crop.png"
+    },
+    {
+      "id": "CRP-04",
+      "name": "Cumin (Jeeru - GC-4)",
+      "gujaratiName": "જીરું (જીસી-૪)",
+      "season": "Rabi",
+      "durationDays": 110,
+      "soilType": "Well-drained Sandy Loam",
+      "waterRequirement": "Light Irrigation (3-4 times)",
+      "expectedYieldPerAcre": "4-6 Quintals",
+      "image": "resources/images/cumin_crop.png"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "market": "Rajkot & Gondal APMC Mandi",
+  "unit": "Per 20 Kg (1 Maund / મણ)",
+  "lastUpdated": "2026-10-13",
+  "rates": [
+    {
+      "commodity": "Cotton (Shankar-6)",
+      "gujaratiName": "કપાસ",
+      "minPrice": 1480,
+      "maxPrice": 1645,
+      "modalPrice": 1580,
+      "trend": "+2.4%"
+    },
+    {
+      "commodity": "Groundnut (Bold)",
+      "gujaratiName": "મગફળી",
+      "minPrice": 1190,
+      "maxPrice": 1385,
+      "modalPrice": 1310,
+      "trend": "+1.8%"
+    },
+    {
+      "commodity": "Cumin (Jeeru)",
+      "gujaratiName": "જીરું",
+      "minPrice": 4600,
+      "maxPrice": 5250,
+      "modalPrice": 4980,
+      "trend": "+3.1%"
+    },
+    {
+      "commodity": "Wheat (Lokwan)",
+      "gujaratiName": "ઘઉં",
+      "minPrice": 540,
+      "maxPrice": 635,
+      "modalPrice": 595,
+      "trend": "+0.9%"
+    }
+  ]
+}

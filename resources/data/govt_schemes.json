@@ -1,0 +1,30 @@
+{
+  "portal": "iKhedut Gujarat & PM-KISAN",
+  "helpline": "1800-180-1551",
+  "schemes": [
+    {
+      "id": "SCH-01",
+      "title": "PM-KISAN Samman Nidhi",
+      "benefit": "₹6,000 / Year (3 Installments)",
+      "category": "Direct Income Support"
+    },
+    {
+      "id": "SCH-02",
+      "title": "iKhedut Tractor & Rotavator Subsidy",
+      "benefit": "Up to ₹45,000 - ₹60,000 Subsidy",
+      "category": "Farm Mechanization"
+    },
+    {
+      "id": "SCH-03",
+      "title": "GGRC Drip & Sprinkler Irrigation Subsidy",
+      "benefit": "50% to 70% Assistance per Hectare",
+      "category": "Micro Irrigation"
+    },
+    {
+      "id": "SCH-04",
+      "title": "Kisan Drone Spraying Assistance",
+      "benefit": "90% Subsidy up to ₹500/Acre (Max 5 Acres)",
+      "category": "Smart Farming"
+    }
+  ]
+}
