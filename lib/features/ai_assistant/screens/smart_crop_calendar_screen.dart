@@ -25,8 +25,11 @@ class _SmartCropCalendarScreenState extends State<SmartCropCalendarScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 820),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Green Top Card
               Container(
@@ -290,6 +293,8 @@ class _SmartCropCalendarScreenState extends State<SmartCropCalendarScreen> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  ),
+);
+}
 }

@@ -100,6 +100,8 @@ class KhedutRiseApp extends StatelessWidget {
         '/my_farm': (_) => const MyFarmScreen(),
         '/add-crop': (_) => const AddCropScreen(),
         '/add_crop': (_) => const AddCropScreen(),
+        '/edit-crop': (_) => const AddCropScreen(isEdit: true),
+        '/edit_crop': (_) => const AddCropScreen(isEdit: true),
         '/edit-farm': (_) => const EditFarmScreen(),
         '/edit_farm': (_) => const EditFarmScreen(),
         '/calendar': (_) => const CalendarTimelineScreen(),

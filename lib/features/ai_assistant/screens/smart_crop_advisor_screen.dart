@@ -49,9 +49,12 @@ class _SmartCropAdvisorScreenState extends State<SmartCropAdvisorScreen> {
       backgroundColor: Colors.white,
       appBar: const KhedutAppBar(title: 'AI Crop Recommendation'),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: Column(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 750),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Green Top Card
@@ -225,7 +228,9 @@ class _SmartCropAdvisorScreenState extends State<SmartCropAdvisorScreen> {
           ),
         ),
       ),
-    );
+    ),
+  ),
+);
   }
 
   Widget _buildInput(String label, TextEditingController controller) {

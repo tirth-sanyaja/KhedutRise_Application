@@ -154,8 +154,11 @@ class LandDetailScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 820),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Hero Image / Graphic Container
               Container(
@@ -503,8 +506,10 @@ class LandDetailScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
+    ),
+  ),
+);
+}
 
   static Widget _buildHighlightTile(
     IconData icon,

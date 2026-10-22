@@ -276,9 +276,12 @@ class _LandMarketplaceScreenState extends State<LandMarketplaceScreen> {
         showBackButton: true,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 880),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Top Green Card
@@ -1143,6 +1146,8 @@ class _LandMarketplaceScreenState extends State<LandMarketplaceScreen> {
           ),
         ),
       ),
-    );
+    ),
+  ),
+);
   }
 }

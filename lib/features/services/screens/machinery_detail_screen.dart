@@ -740,8 +740,11 @@ class _MachineryDetailScreenState extends State<MachineryDetailScreen> {
                   horizontal: 20,
                   vertical: 16,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 820),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Header Card / Hero View
                     Container(
@@ -1122,76 +1125,83 @@ class _MachineryDetailScreenState extends State<MachineryDetailScreen> {
                 ),
               ),
             ),
+          ),
+        ),
 
-            // Sticky Bottom Bar
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.06),
-                    blurRadius: 10,
-                    offset: const Offset(0, -3),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '${_machinery.hourlyRateFormatted} / hr',
-                          style: AppTypography.titleMedium.copyWith(
-                            color: AppColors.primaryDark,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 18,
+        // Sticky Bottom Bar
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.06),
+                  blurRadius: 10,
+                  offset: const Offset(0, -3),
+                ),
+              ],
+            ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 820),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '${_machinery.hourlyRateFormatted} / hr',
+                            style: AppTypography.titleMedium.copyWith(
+                              color: AppColors.primaryDark,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 18,
+                            ),
                           ),
-                        ),
-                        Text(
-                          isAvailable
-                              ? 'Available for instant booking'
-                              : 'Currently booked today',
-                          style: TextStyle(
-                            color: isAvailable
-                                ? Colors.green.shade700
-                                : Colors.orange.shade800,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
+                          Text(
+                            isAvailable
+                                ? 'Available for instant booking'
+                                : 'Currently booked today',
+                            style: TextStyle(
+                              color: isAvailable
+                                  ? Colors.green.shade700
+                                  : Colors.orange.shade800,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isAvailable
+                            ? AppColors.primary
+                            : Colors.grey.shade400,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 28,
+                          vertical: 14,
                         ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isAvailable
-                          ? AppColors.primary
-                          : Colors.grey.shade400,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 28,
-                        vertical: 14,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                      onPressed: isAvailable ? _showBookingSheet : null,
+                      child: Text(
+                        isAvailable ? 'Book Now' : 'Not Available',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
-                    onPressed: isAvailable ? _showBookingSheet : null,
-                    child: Text(
-                      isAvailable ? 'Book Now' : 'Not Available',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
+          ),
           ],
         ),
       ),

@@ -85,9 +85,12 @@ class _EditFarmScreenState extends State<EditFarmScreen> {
       backgroundColor: Colors.white,
       appBar: const KhedutAppBar(title: 'Edit Farm details'),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: Column(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 720),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Farm Name
@@ -261,6 +264,8 @@ class _EditFarmScreenState extends State<EditFarmScreen> {
           ),
         ),
       ),
-    );
+    ),
+  ),
+);
   }
 }

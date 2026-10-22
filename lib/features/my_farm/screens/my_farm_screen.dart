@@ -30,9 +30,12 @@ class MyFarmScreen extends StatelessWidget {
                 ? farmer!.soilType
                 : 'Black Soil';
 
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: Column(
+            return Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 820),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Farm Plot Card
@@ -144,9 +147,11 @@ class MyFarmScreen extends StatelessWidget {
                         child: _buildActionButton(
                           context,
                           icon: Icons.edit_outlined,
-                          label: 'Add Crop',
+                          label: farmer?.currentCrop.isNotEmpty == true
+                              ? 'Edit Crop'
+                              : 'Add Crop',
                           onTap: () =>
-                              Navigator.pushNamed(context, '/add_crop'),
+                              Navigator.pushNamed(context, '/edit_crop'),
                         ),
                       ),
                       const SizedBox(width: 14),
@@ -296,9 +301,11 @@ class MyFarmScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                 ],
               ),
-            );
-          },
-        ),
+            ),
+          ),
+        );
+      },
+    ),
       ),
     );
   }

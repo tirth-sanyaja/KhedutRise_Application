@@ -192,9 +192,12 @@ class ProfileScreen extends StatelessWidget {
             final farmerId = farmer?.id ?? AppConstants.farmerId;
             final landAcres = farmer?.landAcres ?? '5.5 Acres';
 
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: Column(
+            return Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 780),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Profile Header Card
@@ -474,9 +477,11 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                 ],
               ),
-            );
-          },
-        ),
+            ),
+          ),
+        );
+      },
+    ),
       ),
     );
   }

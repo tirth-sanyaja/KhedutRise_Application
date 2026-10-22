@@ -50,9 +50,12 @@ class _FarmExpensesScreenState extends State<FarmExpensesScreen> {
                 top: 24,
               ),
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 600),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
                       child: Container(
@@ -328,8 +331,10 @@ class _FarmExpensesScreenState extends State<FarmExpensesScreen> {
                   ],
                 ),
               ),
-            );
-          },
+            ),
+          ),
+        );
+      },
         );
       },
     );
@@ -459,8 +464,11 @@ class _FarmExpensesScreenState extends State<FarmExpensesScreen> {
 
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 820),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Total Crop Expense Banner - Updates Dynamically!
                   Container(
@@ -833,8 +841,10 @@ class _FarmExpensesScreenState extends State<FarmExpensesScreen> {
                   const SizedBox(height: 80),
                 ],
               ),
-            );
-          },
+            ),
+          ),
+        );
+      },
         ),
       ),
     );

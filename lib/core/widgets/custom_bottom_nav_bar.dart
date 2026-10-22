@@ -22,25 +22,30 @@ class CustomBottomNavBar extends StatelessWidget {
         top: false,
         child: SizedBox(
           height: 62,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
-              _buildNavItem(1, Icons.eco_outlined, Icons.eco, 'My Farm'),
-              _buildNavItem(
-                2,
-                Icons.smart_toy_outlined,
-                Icons.smart_toy,
-                'AI Chat',
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 650),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
+                  _buildNavItem(1, Icons.eco_outlined, Icons.eco, 'My Farm'),
+                  _buildNavItem(
+                    2,
+                    Icons.smart_toy_outlined,
+                    Icons.smart_toy,
+                    'AI Chat',
+                  ),
+                  _buildNavItem(
+                    3,
+                    Icons.agriculture_outlined,
+                    Icons.agriculture,
+                    'Services',
+                  ),
+                  _buildNavItem(4, Icons.person_outline, Icons.person, 'Profile'),
+                ],
               ),
-              _buildNavItem(
-                3,
-                Icons.agriculture_outlined,
-                Icons.agriculture,
-                'Services',
-              ),
-              _buildNavItem(4, Icons.person_outline, Icons.person, 'Profile'),
-            ],
+            ),
           ),
         ),
       ),
