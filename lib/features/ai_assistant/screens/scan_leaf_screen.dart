@@ -31,6 +31,13 @@ class _ScanLeafScreenState extends State<ScanLeafScreen>
       vsync: this,
       duration: const Duration(seconds: 2),
     )..repeat(reverse: true);
+
+    // Auto-launch camera when user arrives on this screen
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_capturedImageBytes == null && _capturedImagePath == null) {
+        _captureFromCamera();
+      }
+    });
   }
 
   @override
@@ -43,6 +50,7 @@ class _ScanLeafScreenState extends State<ScanLeafScreen>
     try {
       final XFile? photo = await _picker.pickImage(
         source: ImageSource.camera,
+        preferredCameraDevice: CameraDevice.rear,
         maxWidth: 1600,
         maxHeight: 1600,
         imageQuality: 85,
@@ -54,11 +62,24 @@ class _ScanLeafScreenState extends State<ScanLeafScreen>
           _capturedImagePath = photo.path;
           _capturedImageBytes = bytes;
         });
+        // Automatically start AI diagnosis once photo is captured
+        _runAnalysis();
       }
     } catch (e) {
-      debugPrint('Camera capture error: $e. Falling back to sample leaf.');
+      debugPrint('Camera capture error: $e');
       if (mounted) {
-        _showSamplePickerNotice();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Camera error: $e. You can also pick from gallery.'),
+            backgroundColor: Colors.red.shade800,
+            duration: const Duration(seconds: 4),
+            action: SnackBarAction(
+              label: 'Gallery',
+              textColor: Colors.white,
+              onPressed: _pickFromGallery,
+            ),
+          ),
+        );
       }
     }
   }
@@ -134,6 +155,7 @@ class _ScanLeafScreenState extends State<ScanLeafScreen>
           _capturedImagePath = image.path;
           _capturedImageBytes = bytes;
         });
+        _runAnalysis();
       }
     } catch (e) {
       debugPrint('Gallery pick error: $e');
@@ -225,17 +247,101 @@ class _ScanLeafScreenState extends State<ScanLeafScreen>
                                 File(_capturedImagePath!),
                                 fit: BoxFit.cover,
                               )
-                            : Image.asset(
-                                AppImages.healthyLeafSample,
-                                fit: BoxFit.cover,
-                                errorBuilder: (_, _, _) => Container(
-                                  color: const Color(0xFF1E293B),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.camera_alt,
-                                      size: 80,
-                                      color: Colors.white24,
-                                    ),
+                            : Center(
+                                child: SingleChildScrollView(
+                                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(22),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primary.withValues(alpha: 0.15),
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: AppColors.primaryLight,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        child: const Icon(
+                                          Icons.camera_alt,
+                                          size: 56,
+                                          color: AppColors.primaryLight,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 18),
+                                      Text(
+                                        'Capture Crop Leaf Photo',
+                                        style: AppTypography.titleMedium.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Text(
+                                        'રોગિષ્ટ પાનનો કેમેરાથી ફોટો પાડો અથવા ગેલેરીમાંથી પસંદ કરો',
+                                        textAlign: TextAlign.center,
+                                        style: AppTypography.bodySmall.copyWith(
+                                          color: Colors.white70,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 24),
+                                      ElevatedButton.icon(
+                                        onPressed: _captureFromCamera,
+                                        icon: const Icon(Icons.camera_alt, color: Colors.white),
+                                        label: const Text(
+                                          'Open Camera / કેમેરા ખોલો',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.primary,
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 24,
+                                            vertical: 14,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(14),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      OutlinedButton.icon(
+                                        onPressed: _pickFromGallery,
+                                        icon: const Icon(Icons.photo_library, color: Colors.white70),
+                                        label: const Text(
+                                          'Choose from Gallery / ગેલેરી',
+                                          style: TextStyle(color: Colors.white, fontSize: 14),
+                                        ),
+                                        style: OutlinedButton.styleFrom(
+                                          side: const BorderSide(color: Colors.white30),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 20,
+                                            vertical: 12,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(14),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      TextButton(
+                                        onPressed: _showSamplePickerNotice,
+                                        child: const Text(
+                                          'Try with Sample Leaf / નમૂના પાંદડું',
+                                          style: TextStyle(
+                                            color: AppColors.primaryLight,
+                                            fontSize: 13,
+                                            decoration: TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),

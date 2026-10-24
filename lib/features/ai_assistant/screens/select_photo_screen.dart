@@ -33,6 +33,29 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
     const Color(0xFFF8FAFC),
   ];
 
+  Future<void> _pickFromCamera() async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.camera,
+        preferredCameraDevice: CameraDevice.rear,
+        maxWidth: 1600,
+        maxHeight: 1600,
+        imageQuality: 85,
+      );
+      if (image != null) {
+        final bytes = await image.readAsBytes();
+        setState(() {
+          _customGalleryPath = image.path;
+          _customGalleryBytes = bytes;
+          _selectedPhotoIndex = -1;
+        });
+        _onUploadAndDiagnose();
+      }
+    } catch (e) {
+      debugPrint('Camera pick error: $e');
+    }
+  }
+
   Future<void> _pickFromDeviceGallery() async {
     try {
       final XFile? image = await _picker.pickImage(
@@ -169,63 +192,70 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
             ),
             const SizedBox(height: 8),
 
-            // Pick Custom File Banner
+            // Action buttons: Open Camera & Pick from Gallery
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: InkWell(
-                onTap: _pickFromDeviceGallery,
-                borderRadius: BorderRadius.circular(14),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF0FDF4),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: const Color(0xFF86EFAC)),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: _pickFromCamera,
+                      borderRadius: BorderRadius.circular(14),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        decoration: BoxDecoration(
                           color: AppColors.primary,
-                          shape: BoxShape.circle,
+                          borderRadius: BorderRadius.circular(14),
                         ),
-                        child: const Icon(
-                          Icons.add_photo_alternate,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Icon(Icons.camera_alt, color: Colors.white, size: 20),
+                            SizedBox(width: 8),
                             Text(
-                              _customGalleryBytes != null
-                                  ? 'Custom Photo Selected'
-                                  : 'Pick from your Phone Gallery',
-                              style: AppTypography.titleSmall.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.primaryDark,
-                              ),
-                            ),
-                            Text(
-                              _customGalleryBytes != null
-                                  ? 'Tap to change photo'
-                                  : 'Select high-resolution photo from storage',
-                              style: AppTypography.bodySmall.copyWith(
-                                color: AppColors.textSecondary,
-                                fontSize: 11,
+                              'Take Photo / કેમેરા',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const Icon(Icons.arrow_forward_ios, size: 14, color: AppColors.primary),
-                    ],
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: InkWell(
+                      onTap: _pickFromDeviceGallery,
+                      borderRadius: BorderRadius.circular(14),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF0FDF4),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: const Color(0xFF86EFAC)),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.photo_library, color: AppColors.primaryDark, size: 20),
+                            SizedBox(width: 8),
+                            Text(
+                              'Gallery / ગેલેરી',
+                              style: TextStyle(
+                                color: AppColors.primaryDark,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 14),

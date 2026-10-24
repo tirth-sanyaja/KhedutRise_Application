@@ -787,6 +787,12 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       },
       {
+        'title': 'Crop Disease',
+        'subtitle': 'Scan Leaf Photo',
+        'icon': Icons.camera_alt,
+        'action': () => Navigator.pushNamed(context, '/scan_leaf'),
+      },
+      {
         'title': 'Crop Advisor',
         'subtitle': 'Yield Planning',
         'icon': Icons.eco,
