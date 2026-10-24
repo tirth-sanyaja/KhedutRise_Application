@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
-import '../../../core/services/crop_disease_service.dart';
+import '../../../core/services/ai_service.dart';
 import '../../../core/widgets/khedut_app_bar.dart';
 import '../../../core/widgets/khedut_button.dart';
 import '../../../resources/resources.dart';
@@ -60,14 +60,14 @@ class _SelectPhotoScreenState extends State<SelectPhotoScreen> {
     try {
       dynamic result;
       if (_customGalleryBytes != null || _customGalleryPath != null) {
-        result = await CropDiseaseService.instance.analyzeImage(
+        result = await AiService.instance.detectCropDisease(
           filePath: _customGalleryPath,
           imageBytes: _customGalleryBytes,
         );
       } else {
         final samplePath = AppImages.leafScanGallerySamples[
             _selectedPhotoIndex % AppImages.leafScanGallerySamples.length];
-        result = await CropDiseaseService.instance.analyzeImage(
+        result = await AiService.instance.detectCropDisease(
           assetPath: samplePath,
         );
       }

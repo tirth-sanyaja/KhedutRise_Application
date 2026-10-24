@@ -587,13 +587,39 @@ class _AiChatScreenState extends State<AiChatScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Khedut AI Assistant',
-                      style: AppTypography.titleSmall.copyWith(
-                        color: AppColors.primaryDark,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 13,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Khedut AI Assistant',
+                          style: AppTypography.titleSmall.copyWith(
+                            color: AppColors.primaryDark,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 13,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: msg.isDemoData
+                                ? const Color(0xFFFEF3C7)
+                                : (msg.isError ? const Color(0xFFFEE2E2) : const Color(0xFFDCFCE7)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            msg.isDemoData
+                                ? 'DEMO DATA'
+                                : (msg.isError ? 'ERROR' : 'LIVE AI (₹0)'),
+                            style: TextStyle(
+                              fontSize: 9,
+                              fontWeight: FontWeight.w800,
+                              color: msg.isDemoData
+                                  ? Colors.amber.shade900
+                                  : (msg.isError ? Colors.red.shade900 : AppColors.primaryDark),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 6),
                     Text(

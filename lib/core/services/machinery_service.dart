@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../models/machinery_model.dart';
+import 'firestore_service.dart';
 
 class MachineryService extends ChangeNotifier {
   MachineryService._internal() {
@@ -134,6 +135,17 @@ class MachineryService extends ChangeNotifier {
     );
 
     _bookings.insert(0, newBooking);
+    FirestoreService.instance.saveBooking({
+      'id': bookingId,
+      'machineryId': machinery.id,
+      'machineryName': machinery.name,
+      'bookingDate': bookingDate.toIso8601String(),
+      'hoursNeeded': durationHours,
+      'plotLocation': deliveryPlot,
+      'status': 'Confirmed',
+      'totalCost': totalAmount,
+      'createdAt': DateTime.now().toUtc().toIso8601String(),
+    });
     notifyListeners();
     return newBooking;
   }
@@ -147,6 +159,7 @@ class MachineryService extends ChangeNotifier {
         status: BookingStatus.cancelled,
         cancellationReason: reason ?? 'Cancelled by farmer',
       );
+      FirestoreService.instance.cancelBooking(bookingId);
       notifyListeners();
       return true;
     }

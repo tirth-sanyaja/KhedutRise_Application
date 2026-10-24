@@ -11,6 +11,7 @@ class AiChatMessage {
   final DateTime timestamp;
   final String? language; // 'gu', 'hi', 'en'
   final bool isError;
+  final bool isDemoData; // Rule 10: Clearly marks offline demo response vs live Gemini AI
 
   const AiChatMessage({
     required this.id,
@@ -20,6 +21,7 @@ class AiChatMessage {
     required this.timestamp,
     this.language,
     this.isError = false,
+    this.isDemoData = false,
   });
 
   Map<String, dynamic> toMap() => {
@@ -30,6 +32,7 @@ class AiChatMessage {
         'timestamp': timestamp.toIso8601String(),
         'language': language,
         'isError': isError,
+        'isDemoData': isDemoData,
       };
 
   factory AiChatMessage.fromMap(Map<String, dynamic> map) => AiChatMessage(
@@ -42,6 +45,7 @@ class AiChatMessage {
             : DateTime.now(),
         language: map['language'] as String?,
         isError: map['isError'] as bool? ?? false,
+        isDemoData: map['isDemoData'] as bool? ?? false,
       );
 }
 

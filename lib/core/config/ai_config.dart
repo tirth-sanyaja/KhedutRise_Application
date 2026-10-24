@@ -12,6 +12,11 @@ class AiConfig extends ChangeNotifier {
   /// Default model name for agriculture multimodal vision & chat
   static const String defaultModel = 'gemini-1.5-flash';
 
+  /// Gemini Developer API Free Tier Quota Limits (Strict ₹0 Cost)
+  static const int freeTierMaxRpm = 15; // 15 Requests Per Minute
+  static const int freeTierMaxRpd = 1500; // 1,500 Requests Per Day
+  static const bool isBillingAccountRequired = false; // No credit card or billing account needed
+
   /// Compile-time define key
   static const String _envApiKey = String.fromEnvironment('GEMINI_API_KEY');
 

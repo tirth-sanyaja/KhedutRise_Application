@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
-import '../../../core/services/crop_disease_service.dart';
+import '../../../core/services/ai_service.dart';
 import '../../../resources/resources.dart';
 import '../widgets/crop_disease_result_sheet.dart';
 
@@ -142,7 +142,7 @@ class _ScanLeafScreenState extends State<ScanLeafScreen>
 
   Future<void> _analyzeSample(String assetPath) async {
     setState(() => _isAnalyzing = true);
-    final result = await CropDiseaseService.instance.analyzeImage(
+    final result = await AiService.instance.detectCropDisease(
       assetPath: assetPath,
     );
     if (!mounted) return;
@@ -159,7 +159,7 @@ class _ScanLeafScreenState extends State<ScanLeafScreen>
 
     setState(() => _isAnalyzing = true);
 
-    final result = await CropDiseaseService.instance.analyzeImage(
+    final result = await AiService.instance.detectCropDisease(
       filePath: _capturedImagePath,
       imageBytes: _capturedImageBytes,
     );

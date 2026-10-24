@@ -3,7 +3,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../core/models/crop_recommendation_model.dart';
 import '../../../core/models/weather_model.dart';
-import '../../../core/services/crop_recommendation_service.dart';
+import '../../../core/services/ai_service.dart';
 import '../../../core/services/farmer_service.dart';
 import '../../../core/services/weather_service.dart';
 import '../../../core/widgets/khedut_app_bar.dart';
@@ -134,7 +134,7 @@ class _SmartCropAdvisorScreenState extends State<SmartCropAdvisorScreen> {
     );
 
     try {
-      final outcome = await CropRecommendationService.instance.recommendCrops(
+      final outcome = await AiService.instance.recommendCrops(
         input: input,
       );
 
@@ -431,6 +431,40 @@ class _SmartCropAdvisorScreenState extends State<SmartCropAdvisorScreen> {
 
                     // Results List
                     if (_result != null) ...[
+                      // Rule 10 Compliance Badge
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: _result!.isDemoData ? const Color(0xFFFEF3C7) : const Color(0xFFDCFCE7),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: _result!.isDemoData ? const Color(0xFFFDE68A) : const Color(0xFF86EFAC),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              _result!.isDemoData ? Icons.info_outline : Icons.verified,
+                              size: 16,
+                              color: _result!.isDemoData ? Colors.amber.shade900 : AppColors.primaryDark,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                _result!.isDemoData
+                                    ? 'OFFLINE DEMO BASELINE (Rule 10: Non-AI Regional Estimate)'
+                                    : 'LIVE GEMINI AI RECOMMENDATION (Free Tier - ₹0)',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: _result!.isDemoData ? Colors.amber.shade900 : AppColors.primaryDark,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Text(
                         'AI Recommended Crops for Your Field :',
                         style: AppTypography.titleMedium.copyWith(
@@ -564,7 +598,7 @@ class _SmartCropAdvisorScreenState extends State<SmartCropAdvisorScreen> {
                 const SizedBox(height: 4),
                 if (_isLoadingWeather)
                   const Text('Fetching live agrometeorological data...')
-                else if (weather != null)
+                else if (weather != null) ...[
                   Text(
                     '${weather.temperature}°C  |  Humidity: ${weather.humidity}%  |  Rain: ${weather.precipitation} mm  |  ${weather.condition}',
                     style: AppTypography.bodySmall.copyWith(
@@ -572,8 +606,16 @@ class _SmartCropAdvisorScreenState extends State<SmartCropAdvisorScreen> {
                       fontWeight: FontWeight.w600,
                       fontSize: 12,
                     ),
-                  )
-                else
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${weather.attribution}  •  ${weather.fetchedAt}',
+                    style: AppTypography.bodySmall.copyWith(
+                      color: const Color(0xFF3B82F6),
+                      fontSize: 10,
+                    ),
+                  ),
+                ] else
                   const Text('Weather forecast ready for analysis'),
               ],
             ),

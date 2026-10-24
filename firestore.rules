@@ -1,31 +1,70 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Farmer profile & private agricultural data
-    match /farmers/{farmerId} {
-      // Only authenticated user can read or write their own farm data
-      allow read, write: if request.auth != null && request.auth.uid == farmerId;
-
-      // Crop leaf scans and AI diagnosis history
-      match /scans/{scanId} {
-        allow read, write: if request.auth != null && request.auth.uid == farmerId;
-      }
-
-      // AI farming assistant conversation history
-      match /chat_messages/{messageId} {
-        allow read, write: if request.auth != null && request.auth.uid == farmerId;
-      }
-
-      // AI crop recommendations
-      match /crop_recommendations/{recId} {
-        allow read, write: if request.auth != null && request.auth.uid == farmerId;
-      }
+    
+    // Helper function: verify that the user is authenticated and matches the requested UID
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
     }
 
-    // Public regional agricultural advisories (read-only for all farmers)
+    // Helper function: prevent any modification that changes the document owner
+    function maintainsOwnership(userId) {
+      return request.resource.data.userId == userId;
+    }
+
+    // 1. Users collection (Farmer profile and account details)
+    match /users/{userId} {
+      allow read, update: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.uid == userId;
+      allow delete: if isOwner(userId);
+    }
+
+    // 2. Farms collection (Agricultural land parcels, soil type, water source)
+    match /farms/{farmId} {
+      allow read, delete: if isOwner(resource.data.userId);
+      allow create: if isOwner(request.resource.data.userId);
+      allow update: if isOwner(resource.data.userId) && maintainsOwnership(resource.data.userId);
+    }
+
+    // 3. Disease Scans collection (AI leaf pathology diagnostics - no image binaries)
+    match /disease_scans/{scanId} {
+      allow read, delete: if isOwner(resource.data.userId);
+      allow create: if isOwner(request.resource.data.userId);
+      allow update: if isOwner(resource.data.userId) && maintainsOwnership(resource.data.userId);
+    }
+
+    // 4. Crop Recommendations collection (AI recommendations, soil data, weather snapshot)
+    match /crop_recommendations/{recId} {
+      allow read, delete: if isOwner(resource.data.userId);
+      allow create: if isOwner(request.resource.data.userId);
+      allow update: if isOwner(resource.data.userId) && maintainsOwnership(resource.data.userId);
+    }
+
+    // 5. Chats collection (Trilingual farming assistant message history)
+    match /chats/{chatId} {
+      allow read, delete: if isOwner(resource.data.userId);
+      allow create: if isOwner(request.resource.data.userId);
+      allow update: if isOwner(resource.data.userId) && maintainsOwnership(resource.data.userId);
+    }
+
+    // 6. Expenses collection (Farm operational bookkeeping)
+    match /expenses/{expenseId} {
+      allow read, delete: if isOwner(resource.data.userId);
+      allow create: if isOwner(request.resource.data.userId);
+      allow update: if isOwner(resource.data.userId) && maintainsOwnership(resource.data.userId);
+    }
+
+    // 7. Bookings collection (Tractor & farm mechanization rentals)
+    match /bookings/{bookingId} {
+      allow read, delete: if isOwner(resource.data.userId);
+      allow create: if isOwner(request.resource.data.userId);
+      allow update: if isOwner(resource.data.userId) && maintainsOwnership(resource.data.userId);
+    }
+
+    // Public regional agricultural advisories (read-only for all authenticated farmers, ₹0 cost)
     match /advisories/{advisoryId} {
       allow read: if request.auth != null;
-      allow write: if false; // only written by backend agricultural admins
+      allow write: if false; // Only written via secure admin script
     }
   }
 }

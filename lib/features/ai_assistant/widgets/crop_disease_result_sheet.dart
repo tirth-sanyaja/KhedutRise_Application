@@ -105,6 +105,41 @@ class CropDiseaseResultSheet extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               children: [
+                // Real AI vs Demo Data Badge (Rule 10 Compliance)
+                Container(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: result.isDemoData ? const Color(0xFFFEF3C7) : const Color(0xFFDCFCE7),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: result.isDemoData ? const Color(0xFFFDE68A) : const Color(0xFF86EFAC),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        result.isDemoData ? Icons.science_outlined : Icons.verified,
+                        size: 16,
+                        color: result.isDemoData ? Colors.amber.shade900 : AppColors.primaryDark,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          result.isDemoData
+                              ? 'OFFLINE DEMO DATA (Rule 10: Non-AI Baseline)'
+                              : 'LIVE AI DIAGNOSIS (Gemini 1.5 Flash - Free Tier ₹0)',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: result.isDemoData ? Colors.amber.shade900 : AppColors.primaryDark,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 // Unclear image banner
                 if (!result.isClearImage) ...[
                   Container(

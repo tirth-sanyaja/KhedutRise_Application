@@ -172,6 +172,7 @@ Return ONLY raw JSON, with no markdown backticks.
       isMeasuredSoil: input.hasMeasuredSoilTest,
       advisoryNotice: advisoryNotice,
       createdAt: DateTime.now(),
+      isDemoData: false, // Live AI generated
     );
   }
 
@@ -381,6 +382,7 @@ Return ONLY raw JSON, with no markdown backticks.
       isMeasuredSoil: input.hasMeasuredSoilTest,
       advisoryNotice: advisoryNotice,
       createdAt: DateTime.now(),
+      isDemoData: true, // Rule 10: Clearly marked as regional demo baseline
     );
   }
 }

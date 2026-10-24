@@ -346,6 +346,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
               fontSize: 11.5,
             ),
           ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: const Color(0xFFE2E8F0)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Row(
+                  children: [
+                    Icon(Icons.shield, size: 14, color: AppColors.primary),
+                    SizedBox(width: 6),
+                    Text(
+                      'Strict ₹0 Cost & Free Tier Guard',
+                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '• Gemini Free Tier: 15 RPM / 1,500 RPD (₹0, no credit card)\n'
+                  '• Firebase Spark: 50k reads / 20k writes daily limit\n'
+                  '• In-Memory Images: Zero Cloud Storage upload cost\n'
+                  '• Open-Meteo: Free non-commercial API (CC-BY 4.0)\n'
+                  '• Data Notice: Free Gemini prompts may be used for model training.',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.grey.shade700,
+                    height: 1.35,
+                  ),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: 12),
           Row(
             children: [

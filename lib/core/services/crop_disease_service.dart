@@ -202,6 +202,7 @@ IMPORTANT:
     parsedJson['id'] = 'scan_${DateTime.now().millisecondsSinceEpoch}';
     parsedJson['imagePath'] = imagePath;
     parsedJson['scannedAt'] = DateTime.now().toIso8601String();
+    parsedJson['isDemoData'] = false; // Real AI verified response
 
     return CropDiseaseResult.fromMap(parsedJson);
   }
@@ -241,6 +242,7 @@ IMPORTANT:
         scannedAt: DateTime.now(),
         imagePath: assetPath ?? filePath,
         imageBase64: base64Image,
+        isDemoData: true,
       );
     }
 
@@ -270,6 +272,7 @@ IMPORTANT:
         scannedAt: DateTime.now(),
         imagePath: assetPath ?? filePath,
         imageBase64: base64Image,
+        isDemoData: true,
       );
     }
 
@@ -299,6 +302,7 @@ IMPORTANT:
         scannedAt: DateTime.now(),
         imagePath: assetPath ?? filePath,
         imageBase64: base64Image,
+        isDemoData: true,
       );
     }
 
@@ -327,6 +331,7 @@ IMPORTANT:
         scannedAt: DateTime.now(),
         imagePath: assetPath ?? filePath,
         imageBase64: base64Image,
+        isDemoData: true,
       );
     }
 
@@ -355,6 +360,7 @@ IMPORTANT:
         scannedAt: DateTime.now(),
         imagePath: assetPath ?? filePath,
         imageBase64: base64Image,
+        isDemoData: true,
       );
     }
 
@@ -383,6 +389,7 @@ IMPORTANT:
       scannedAt: DateTime.now(),
       imagePath: assetPath ?? filePath,
       imageBase64: base64Image,
+      isDemoData: true,
     );
   }
 }

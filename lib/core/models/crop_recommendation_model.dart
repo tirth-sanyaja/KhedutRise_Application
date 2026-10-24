@@ -108,6 +108,7 @@ class CropRecommendationResult {
   final bool isMeasuredSoil;
   final String advisoryNotice;
   final DateTime createdAt;
+  final bool isDemoData; // Rule 10: Clearly marks offline demo baseline vs real AI
 
   const CropRecommendationResult({
     required this.id,
@@ -117,6 +118,7 @@ class CropRecommendationResult {
     required this.isMeasuredSoil,
     required this.advisoryNotice,
     required this.createdAt,
+    this.isDemoData = false,
   });
 
   String get soilMeasurementStatus => isMeasuredSoil

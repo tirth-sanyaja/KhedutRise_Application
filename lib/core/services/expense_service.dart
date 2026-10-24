@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'firestore_service.dart';
 
 class ExpenseItem {
   final String id;
@@ -102,12 +103,21 @@ class ExpenseService extends ChangeNotifier {
     );
 
     _expenses.insert(0, newItem);
+    FirestoreService.instance.saveExpense({
+      'id': newItem.id,
+      'title': newItem.title,
+      'category': newItem.category,
+      'date': newItem.date,
+      'amount': newItem.amount,
+      'notes': newItem.notes,
+    });
     notifyListeners();
   }
 
   /// Remove an expense item by id
   void removeExpense(String id) {
     _expenses.removeWhere((item) => item.id == id);
+    FirestoreService.instance.deleteExpense(id);
     notifyListeners();
   }
 

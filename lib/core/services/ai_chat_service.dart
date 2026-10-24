@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import '../config/ai_config.dart';
 import 'ai_history_service.dart';
 import 'farmer_service.dart';
+import 'firestore_service.dart';
 
 /// Real AI Farming Assistant supporting Gujarati, Hindi, and English.
 /// Powered by Gemini 1.5 Flash with conversational memory and agricultural safety disclaimers.
@@ -49,9 +50,11 @@ class AiChatService extends ChangeNotifier {
       language: _currentLanguage,
     );
     await AiHistoryService.instance.saveChatMessage(userMsgObj);
+    await FirestoreService.instance.saveChatMessage(userMsgObj.toMap());
 
     try {
       String aiReplyText = '';
+      bool isDemo = false;
 
       // 2. Call Gemini API if configured
       if (AiConfig.instance.isConfigured) {
@@ -65,6 +68,7 @@ class AiChatService extends ChangeNotifier {
       // 3. Fallback agricultural knowledge engine if Gemini not configured or offline
       if (aiReplyText.isEmpty) {
         aiReplyText = _generateAgronomicResponse(cleanMessage, farmer);
+        isDemo = true;
       }
 
       // 4. Record AI assistant message in history
@@ -75,8 +79,10 @@ class AiChatService extends ChangeNotifier {
         text: aiReplyText,
         timestamp: DateTime.now(),
         language: _currentLanguage,
+        isDemoData: isDemo,
       );
       await AiHistoryService.instance.saveChatMessage(aiMsgObj);
+      await FirestoreService.instance.saveChatMessage(aiMsgObj.toMap());
 
       _isSending = false;
       notifyListeners();

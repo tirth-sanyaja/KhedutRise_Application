@@ -9,6 +9,7 @@ class FarmWeather {
   final String condition; // e.g. Sunny, Clear, Overcast, Rain
   final bool isLive; // true if fetched from live weather API, false if offline estimate
   final String fetchedAt;
+  final String attribution; // Open-Meteo CC-BY 4.0 license attribution
 
   const FarmWeather({
     required this.locationName,
@@ -20,6 +21,7 @@ class FarmWeather {
     required this.condition,
     required this.isLive,
     required this.fetchedAt,
+    this.attribution = 'Weather data provided by Open-Meteo.com under CC-BY 4.0 (Free Non-commercial)',
   });
 
   factory FarmWeather.defaultBaseline({String location = 'Rajkot, Gujarat'}) {
@@ -33,6 +35,7 @@ class FarmWeather {
       condition: 'Partly Cloudy',
       isLive: false,
       fetchedAt: DateTime.now().toLocal().toString().substring(0, 16),
+      attribution: 'Regional Agro-Climatic Baseline (Offline Mode)',
     );
   }
 }

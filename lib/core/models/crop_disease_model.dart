@@ -17,6 +17,7 @@ class CropDiseaseResult {
   final DateTime scannedAt;
   final String? imagePath;
   final String? imageBase64;
+  final bool isDemoData; // Rule 10: Clearly marks offline demo data vs real AI response
 
   const CropDiseaseResult({
     required this.id,
@@ -34,6 +35,7 @@ class CropDiseaseResult {
     required this.scannedAt,
     this.imagePath,
     this.imageBase64,
+    this.isDemoData = false,
   });
 
   bool get isHealthy =>
@@ -57,6 +59,7 @@ class CropDiseaseResult {
       'scannedAt': scannedAt.toIso8601String(),
       'imagePath': imagePath,
       'imageBase64': imageBase64,
+      'isDemoData': isDemoData,
     };
   }
 
@@ -83,6 +86,7 @@ class CropDiseaseResult {
           : DateTime.now(),
       imagePath: map['imagePath'] as String?,
       imageBase64: map['imageBase64'] as String?,
+      isDemoData: map['isDemoData'] as bool? ?? false,
     );
   }
 
