@@ -3,6 +3,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/services/farmer_service.dart';
+import '../../../resources/resources.dart';
 
 class HomeScreen extends StatefulWidget {
   final Function(int)? onSwitchTab;
@@ -252,6 +253,21 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         scrolledUnderElevation: 0,
+        leadingWidth: 52,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 14, top: 7, bottom: 7),
+          child: Container(
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            child: ClipOval(
+              child: Image.asset(
+                AppImages.appLogo,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
         title: ListenableBuilder(
           listenable: FarmerService.instance,
           builder: (context, _) {

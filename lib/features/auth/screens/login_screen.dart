@@ -99,22 +99,36 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 10),
-                // Circular logo
-                Container(
-                  width: 92,
-                  height: 92,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
-                  child: ClipOval(
-                    child: Image.asset(
-                      AppImages.appLogo,
-                      fit: BoxFit.contain,
-                      errorBuilder: (_, _, _) => const Icon(
-                        Icons.agriculture,
-                        color: AppColors.primary,
-                        size: 45,
+                // Responsive Circular Logo
+                Builder(
+                  builder: (context) {
+                    final logoSize = (MediaQuery.of(context).size.width * 0.28).clamp(96.0, 130.0);
+                    return Container(
+                      width: logoSize,
+                      height: logoSize,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primary.withValues(alpha: 0.12),
+                            blurRadius: 16,
+                            spreadRadius: 2,
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
+                      child: ClipOval(
+                        child: Image.asset(
+                          AppImages.appLogo,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) => const Icon(
+                            Icons.agriculture,
+                            color: AppColors.primary,
+                            size: 45,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 24),
                 // Heading

@@ -46,17 +46,33 @@ class _SplashScreenState extends State<SplashScreen> {
               height: double.infinity,
               child: Column(
                 children: [
-                  const SizedBox(height: 60),
-                  // Logo Emblem
-                  Container(
-                    width: 170,
-                    height: 170,
-                    decoration: const BoxDecoration(shape: BoxShape.circle),
-                    child: Image.asset(
-                      AppImages.appLogo,
-                      fit: BoxFit.contain,
-                      errorBuilder: (_, _, _) => _buildFallbackLogo(),
-                    ),
+                  const SizedBox(height: 50),
+                  // Responsive Logo Emblem
+                  Builder(
+                    builder: (context) {
+                      final logoSize = (size.width * 0.44).clamp(160.0, 220.0);
+                      return Container(
+                        width: logoSize,
+                        height: logoSize,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.15),
+                              blurRadius: 24,
+                              spreadRadius: 4,
+                            ),
+                          ],
+                        ),
+                        child: ClipOval(
+                          child: Image.asset(
+                            AppImages.appLogo,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, _, _) => _buildFallbackLogo(),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 24),
                   // Title: KhedutRise
