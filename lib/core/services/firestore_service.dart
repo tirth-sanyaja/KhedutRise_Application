@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import '../database/database_constants.dart';
+import '../database/local_database_service.dart';
 import 'farmer_service.dart';
 
 /// Comprehensive Cloud Firestore service tailored strictly for the Firebase Spark (₹0 Free) Plan.
@@ -17,8 +19,24 @@ import 'farmer_service.dart';
 /// - Zero Cloud Storage cost: processes crop images in-memory and stores only lightweight metadata
 /// - Authenticated UID isolation matching firestore.rules
 class FirestoreService extends ChangeNotifier {
-  FirestoreService._internal();
+  FirestoreService._internal() {
+    syncFromLocalDatabase();
+  }
   static final FirestoreService instance = FirestoreService._internal();
+
+  /// Synchronize all collections from persistent local database upon startup
+  Future<void> syncFromLocalDatabase() async {
+    try {
+      await LocalDatabaseService.instance.init();
+      for (final col in DatabaseCollections.all) {
+        final records = LocalDatabaseService.instance.getDocuments(col);
+        if (records.isNotEmpty) {
+          _localCollections[col] = List<Map<String, dynamic>>.from(records);
+        }
+      }
+      notifyListeners();
+    } catch (_) {}
+  }
 
   // Firebase project identifier (configurable via --dart-define=FIREBASE_PROJECT_ID=... or runtime)
   static const String _envProjectId = String.fromEnvironment('FIREBASE_PROJECT_ID');
@@ -113,6 +131,7 @@ class FirestoreService extends ChangeNotifier {
     _localCollections['users']!.removeWhere((u) => u['userId'] == uid);
     _localCollections['users']!.add(doc);
     _writesToday++;
+    await LocalDatabaseService.instance.saveDocument(DatabaseCollections.users, doc);
     notifyListeners();
     return true;
   }
@@ -152,6 +171,7 @@ class FirestoreService extends ChangeNotifier {
     _localCollections['farms']!.removeWhere((f) => f['farmId'] == farmId);
     _localCollections['farms']!.add(doc);
     _writesToday++;
+    await LocalDatabaseService.instance.saveDocument(DatabaseCollections.farms, doc);
     notifyListeners();
     return true;
   }
@@ -195,6 +215,7 @@ class FirestoreService extends ChangeNotifier {
     _localCollections['disease_scans']!.removeWhere((s) => s['scanId'] == scanId);
     _localCollections['disease_scans']!.insert(0, doc);
     _writesToday++;
+    await LocalDatabaseService.instance.saveDocument(DatabaseCollections.diseaseScans, doc);
     notifyListeners();
     return true;
   }
@@ -233,6 +254,7 @@ class FirestoreService extends ChangeNotifier {
         .removeWhere((r) => r['recId'] == recId);
     _localCollections['crop_recommendations']!.insert(0, doc);
     _writesToday++;
+    await LocalDatabaseService.instance.saveDocument(DatabaseCollections.cropRecommendations, doc);
     notifyListeners();
     return true;
   }
@@ -269,6 +291,7 @@ class FirestoreService extends ChangeNotifier {
 
     _localCollections['chats']!.add(doc);
     _writesToday++;
+    await LocalDatabaseService.instance.saveDocument(DatabaseCollections.chats, doc);
     notifyListeners();
     return true;
   }
@@ -306,6 +329,7 @@ class FirestoreService extends ChangeNotifier {
     _localCollections['expenses']!.removeWhere((e) => e['expenseId'] == expId);
     _localCollections['expenses']!.add(doc);
     _writesToday++;
+    await LocalDatabaseService.instance.saveDocument(DatabaseCollections.expenses, doc);
     notifyListeners();
     return true;
   }
@@ -332,6 +356,7 @@ class FirestoreService extends ChangeNotifier {
 
     _localCollections['expenses']!.removeWhere((e) => e['expenseId'] == expenseId);
     _deletesToday++;
+    await LocalDatabaseService.instance.deleteDocument(DatabaseCollections.expenses, expenseId);
     notifyListeners();
     return true;
   }
@@ -356,6 +381,7 @@ class FirestoreService extends ChangeNotifier {
     _localCollections['bookings']!.removeWhere((b) => b['bookingId'] == bookId);
     _localCollections['bookings']!.add(doc);
     _writesToday++;
+    await LocalDatabaseService.instance.saveDocument(DatabaseCollections.bookings, doc);
     notifyListeners();
     return true;
   }

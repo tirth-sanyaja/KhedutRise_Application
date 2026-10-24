@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import '../database/database_constants.dart';
+import '../database/local_database_service.dart';
 import 'firestore_service.dart';
 
 class ExpenseItem {
@@ -51,6 +53,22 @@ class ExpenseService extends ChangeNotifier {
   List<ExpenseItem> get expenses => List.unmodifiable(_expenses);
 
   void _loadInitialExpenses() {
+    final localExpenses = LocalDatabaseService.instance.getDocuments(DatabaseCollections.expenses);
+    if (localExpenses.isNotEmpty) {
+      _expenses.clear();
+      for (final exp in localExpenses) {
+        _expenses.add(ExpenseItem(
+          id: exp['id'] as String? ?? exp['expenseId'] as String? ?? 'exp-${DateTime.now().millisecondsSinceEpoch}',
+          title: exp['title'] as String? ?? 'Expense',
+          category: exp['category'] as String? ?? 'General',
+          date: exp['date'] as String? ?? '',
+          amount: (exp['amount'] as num?)?.toInt() ?? 0,
+          notes: exp['notes'] as String? ?? '',
+        ));
+      }
+      return;
+    }
+
     _expenses.addAll([
       const ExpenseItem(
         id: 'exp-1',

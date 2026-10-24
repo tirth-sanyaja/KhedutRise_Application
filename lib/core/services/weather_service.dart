@@ -1,6 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+import '../api/weather_api_client.dart';
 import '../models/weather_model.dart';
 import 'farmer_service.dart';
 
@@ -50,40 +49,34 @@ class WeatherService extends ChangeNotifier {
     final lon = coords[1];
 
     try {
-      final uri = Uri.parse(
-        'https://api.open-meteo.com/v1/forecast?latitude=$lat&longitude=$lon&current=temperature_2m,relative_humidity_2m,precipitation,weather_code&timezone=auto',
+      final current = await WeatherApiClient().fetchCurrentWeather(
+        latitude: lat,
+        longitude: lon,
       );
 
-      final response = await http.get(uri).timeout(const Duration(seconds: 8));
+      if (current != null) {
+        final temp = (current['temperature_2m'] as num?)?.toDouble() ?? 28.0;
+        final humidity = (current['relative_humidity_2m'] as num?)?.toInt() ?? 55;
+        final precip = (current['precipitation'] as num?)?.toDouble() ?? 0.0;
+        final weatherCode = (current['weather_code'] as num?)?.toInt() ?? 0;
+        final condition = _interpretWeatherCode(weatherCode);
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body) as Map<String, dynamic>;
-        final current = data['current'] as Map<String, dynamic>?;
+        final weather = FarmWeather(
+          locationName: locationQuery,
+          latitude: lat,
+          longitude: lon,
+          temperature: temp,
+          humidity: humidity,
+          precipitation: precip,
+          condition: condition,
+          isLive: true,
+          fetchedAt: DateTime.now().toLocal().toString().substring(0, 16),
+        );
 
-        if (current != null) {
-          final temp = (current['temperature_2m'] as num?)?.toDouble() ?? 28.0;
-          final humidity = (current['relative_humidity_2m'] as num?)?.toInt() ?? 55;
-          final precip = (current['precipitation'] as num?)?.toDouble() ?? 0.0;
-          final weatherCode = (current['weather_code'] as num?)?.toInt() ?? 0;
-          final condition = _interpretWeatherCode(weatherCode);
-
-          final weather = FarmWeather(
-            locationName: locationQuery,
-            latitude: lat,
-            longitude: lon,
-            temperature: temp,
-            humidity: humidity,
-            precipitation: precip,
-            condition: condition,
-            isLive: true,
-            fetchedAt: DateTime.now().toLocal().toString().substring(0, 16),
-          );
-
-          _currentWeather = weather;
-          _isLoading = false;
-          notifyListeners();
-          return weather;
-        }
+        _currentWeather = weather;
+        _isLoading = false;
+        notifyListeners();
+        return weather;
       }
 
       throw Exception('Weather data format not recognized');
