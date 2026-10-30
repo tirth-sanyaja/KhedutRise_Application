@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../core/config/ai_config.dart';
 import '../../../core/services/ai_service.dart';
+import '../../../core/widgets/gemini_api_key_dialog.dart';
 import '../../../resources/resources.dart';
 import '../widgets/crop_disease_result_sheet.dart';
 
@@ -27,6 +29,7 @@ class _ScanLeafScreenState extends State<ScanLeafScreen>
   @override
   void initState() {
     super.initState();
+    AiConfig.instance.addListener(_onAiConfigUpdate);
     _animController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -40,8 +43,13 @@ class _ScanLeafScreenState extends State<ScanLeafScreen>
     });
   }
 
+  void _onAiConfigUpdate() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
+    AiConfig.instance.removeListener(_onAiConfigUpdate);
     _animController.dispose();
     super.dispose();
   }
@@ -224,10 +232,67 @@ class _ScanLeafScreenState extends State<ScanLeafScreen>
           ),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(
+              AiConfig.instance.isConfigured ? Icons.psychology : Icons.vpn_key_outlined,
+              color: AiConfig.instance.isConfigured ? const Color(0xFF86EFAC) : Colors.amber,
+            ),
+            tooltip: 'Gemini AI Setup',
+            onPressed: () => GeminiApiKeyDialog.show(context),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(
           children: [
+            // AI Mode Strip
+            InkWell(
+              onTap: () => GeminiApiKeyDialog.show(context),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                color: AiConfig.instance.isConfigured
+                    ? const Color(0xFF14532D)
+                    : const Color(0xFF78350F),
+                child: Row(
+                  children: [
+                    Icon(
+                      AiConfig.instance.isConfigured ? Icons.check_circle : Icons.tune,
+                      size: 14,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        AiConfig.instance.isConfigured
+                            ? 'Gemini 1.5 Vision Live AI Active (₹0)'
+                            : 'Offline Diagnostic Engine (Tap to activate Live Gemini AI)',
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        AiConfig.instance.isConfigured ? 'Active' : 'Setup Key',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Expanded(
               child: Stack(
                 alignment: Alignment.center,

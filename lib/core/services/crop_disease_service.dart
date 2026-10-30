@@ -198,6 +198,13 @@ IMPORTANT:
     }
     rawText = rawText.trim();
 
+    // Resilient extraction of innermost JSON object
+    final firstBrace = rawText.indexOf('{');
+    final lastBrace = rawText.lastIndexOf('}');
+    if (firstBrace != -1 && lastBrace != -1 && lastBrace > firstBrace) {
+      rawText = rawText.substring(firstBrace, lastBrace + 1);
+    }
+
     final parsedJson = jsonDecode(rawText) as Map<String, dynamic>;
     parsedJson['id'] = 'scan_${DateTime.now().millisecondsSinceEpoch}';
     parsedJson['imagePath'] = imagePath;

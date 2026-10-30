@@ -74,6 +74,8 @@ class FirestoreService extends ChangeNotifier {
   String? _quotaErrorMessage;
   String? get quotaErrorMessage => _quotaErrorMessage;
 
+  final Set<String> _expenseIdSet = {};
+
   // Local in-memory store simulating Firestore partitioned by collection and authenticated UID
   final Map<String, List<Map<String, dynamic>>> _localCollections = {
     'users': [],
@@ -326,7 +328,11 @@ class FirestoreService extends ChangeNotifier {
     doc['userId'] = expenseData['userId'] as String? ?? _currentUserId;
     doc['createdAt'] = DateTime.now().toUtc().toIso8601String();
 
-    _localCollections['expenses']!.removeWhere((e) => e['expenseId'] == expId);
+    if (_expenseIdSet.contains(expId)) {
+      _localCollections['expenses']!.removeWhere((e) => e['expenseId'] == expId);
+    } else {
+      _expenseIdSet.add(expId);
+    }
     _localCollections['expenses']!.add(doc);
     _writesToday++;
     await LocalDatabaseService.instance.saveDocument(DatabaseCollections.expenses, doc);
@@ -426,6 +432,8 @@ class FirestoreService extends ChangeNotifier {
     _deletesToday = 0;
     _isQuotaExhausted = false;
     _quotaErrorMessage = null;
+    _expenseIdSet.clear();
+    _localCollections['expenses']!.clear();
     notifyListeners();
   }
 }

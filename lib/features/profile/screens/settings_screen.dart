@@ -3,6 +3,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../core/config/ai_config.dart';
 import '../../../core/constants/app_constants.dart';
+import '../../../core/widgets/gemini_api_key_dialog.dart';
 import '../../../core/widgets/khedut_app_bar.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -436,58 +437,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _showApiKeyDialog() {
-    final controller = TextEditingController(text: AiConfig.instance.apiKey);
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Gemini API Key Setup'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Enter your Google AI Studio Gemini API Key. Keys can also be provided at build time via --dart-define=GEMINI_API_KEY=your_key.',
-              style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: controller,
-              decoration: const InputDecoration(
-                hintText: 'AIzaSy...',
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          if (AiConfig.instance.hasCustomKey)
-            TextButton(
-              onPressed: () {
-                AiConfig.instance.clearApiKey();
-                Navigator.pop(ctx);
-                setState(() {});
-              },
-              child: const Text('Clear Key', style: TextStyle(color: Colors.red)),
-            ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (controller.text.trim().isNotEmpty) {
-                AiConfig.instance.setApiKey(controller.text.trim());
-              }
-              Navigator.pop(ctx);
-              setState(() {});
-            },
-            child: const Text('Save'),
-          ),
-        ],
-      ),
-    );
+  void _showApiKeyDialog() async {
+    await GeminiApiKeyDialog.show(context);
+    if (mounted) setState(() {});
   }
 
   Future<void> _testAiConnection() async {

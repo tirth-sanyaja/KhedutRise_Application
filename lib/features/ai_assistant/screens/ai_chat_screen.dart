@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_typography.dart';
+import '../../../core/config/ai_config.dart';
 import '../../../core/services/ai_chat_service.dart';
 import '../../../core/services/ai_history_service.dart';
 import '../../../core/services/farmer_service.dart';
+import '../../../core/widgets/gemini_api_key_dialog.dart';
 import '../../../core/widgets/khedut_app_bar.dart';
 
 class AiChatScreen extends StatefulWidget {
@@ -28,6 +30,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
     super.initState();
     _chatService.addListener(_onServiceUpdate);
     _historyService.addListener(_onServiceUpdate);
+    AiConfig.instance.addListener(_onServiceUpdate);
     _seedInitialGreetingIfNeeded();
   }
 
@@ -119,6 +122,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
   void dispose() {
     _chatService.removeListener(_onServiceUpdate);
     _historyService.removeListener(_onServiceUpdate);
+    AiConfig.instance.removeListener(_onServiceUpdate);
     _messageController.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -165,6 +169,77 @@ class _AiChatScreenState extends State<AiChatScreen> {
                   const SizedBox(width: 6),
                   _buildLanguagePill('English', 'en', lang == 'en'),
                 ],
+              ),
+            ),
+
+            // AI Engine Status & Key Setup Strip
+            InkWell(
+              onTap: () => GeminiApiKeyDialog.show(context),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
+                decoration: BoxDecoration(
+                  color: AiConfig.instance.isConfigured
+                      ? const Color(0xFFDCFCE7)
+                      : const Color(0xFFFEF3C7),
+                  border: Border(
+                    bottom: BorderSide(
+                      color: AiConfig.instance.isConfigured
+                          ? const Color(0xFF86EFAC)
+                          : const Color(0xFFFDE68A),
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      AiConfig.instance.isConfigured
+                          ? Icons.check_circle
+                          : Icons.info_outline,
+                      size: 15,
+                      color: AiConfig.instance.isConfigured
+                          ? AppColors.primaryDark
+                          : Colors.amber.shade900,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        AiConfig.instance.isConfigured
+                            ? 'Gemini 1.5 Live AI સક્રિય છે (Free Tier ₹0)'
+                            : 'ઓફલાઇન AI • મફત લાઈવ AI ચાલુ કરવા અહીં ટેપ કરો (₹0)',
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w700,
+                          color: AiConfig.instance.isConfigured
+                              ? AppColors.primaryDark
+                              : Colors.amber.shade900,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: AiConfig.instance.isConfigured
+                              ? const Color(0xFF86EFAC)
+                              : const Color(0xFFFDE68A),
+                        ),
+                      ),
+                      child: Text(
+                        AiConfig.instance.isConfigured ? 'સેટિંગ્સ' : 'કી સેટ કરો',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w800,
+                          color: AiConfig.instance.isConfigured
+                              ? AppColors.primaryDark
+                              : Colors.amber.shade900,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
 

@@ -51,12 +51,14 @@ import 'features/profile/screens/edit_profile_screen.dart';
 import 'features/profile/screens/settings_screen.dart';
 import 'features/profile/screens/help_center_screen.dart';
 
+import 'core/config/ai_config.dart';
 import 'core/database/local_database_service.dart';
 import 'core/services/firestore_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalDatabaseService.instance.init();
+  await AiConfig.instance.init();
   await FirestoreService.instance.syncFromLocalDatabase();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(
