@@ -5,7 +5,6 @@ import '../../../core/config/ai_config.dart';
 import '../../../core/services/ai_chat_service.dart';
 import '../../../core/services/ai_history_service.dart';
 import '../../../core/services/farmer_service.dart';
-import '../../../core/widgets/gemini_api_key_dialog.dart';
 import '../../../core/widgets/khedut_app_bar.dart';
 
 class AiChatScreen extends StatefulWidget {
@@ -151,93 +150,25 @@ class _AiChatScreenState extends State<AiChatScreen> {
                   bottom: BorderSide(color: Color(0xFFE2E8F0)),
                 ),
               ),
-              child: Row(
-                children: [
-                  const Icon(Icons.translate, size: 18, color: AppColors.primaryDark),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Language:',
-                    style: AppTypography.labelUppercase.copyWith(
-                      color: AppColors.primaryDark,
-                      fontSize: 11,
-                    ),
-                  ),
-                  const Spacer(),
-                  _buildLanguagePill('ગુજરાતી', 'gu', lang == 'gu'),
-                  const SizedBox(width: 6),
-                  _buildLanguagePill('हिन्दी', 'hi', lang == 'hi'),
-                  const SizedBox(width: 6),
-                  _buildLanguagePill('English', 'en', lang == 'en'),
-                ],
-              ),
-            ),
-
-            // AI Engine Status & Key Setup Strip
-            InkWell(
-              onTap: () => GeminiApiKeyDialog.show(context),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
-                decoration: BoxDecoration(
-                  color: AiConfig.instance.isConfigured
-                      ? const Color(0xFFDCFCE7)
-                      : const Color(0xFFFEF3C7),
-                  border: Border(
-                    bottom: BorderSide(
-                      color: AiConfig.instance.isConfigured
-                          ? const Color(0xFF86EFAC)
-                          : const Color(0xFFFDE68A),
-                      width: 1,
-                    ),
-                  ),
-                ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    Icon(
-                      AiConfig.instance.isConfigured
-                          ? Icons.check_circle
-                          : Icons.info_outline,
-                      size: 15,
-                      color: AiConfig.instance.isConfigured
-                          ? AppColors.primaryDark
-                          : Colors.amber.shade900,
-                    ),
+                    const Icon(Icons.translate, size: 18, color: AppColors.primaryDark),
                     const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        AiConfig.instance.isConfigured
-                            ? 'Gemini 1.5 Live AI સક્રિય છે (Free Tier ₹0)'
-                            : 'ઓફલાઇન AI • મફત લાઈવ AI ચાલુ કરવા અહીં ટેપ કરો (₹0)',
-                        style: TextStyle(
-                          fontSize: 11.5,
-                          fontWeight: FontWeight.w700,
-                          color: AiConfig.instance.isConfigured
-                              ? AppColors.primaryDark
-                              : Colors.amber.shade900,
-                        ),
+                    Text(
+                      'Language:',
+                      style: AppTypography.labelUppercase.copyWith(
+                        color: AppColors.primaryDark,
+                        fontSize: 11,
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: AiConfig.instance.isConfigured
-                              ? const Color(0xFF86EFAC)
-                              : const Color(0xFFFDE68A),
-                        ),
-                      ),
-                      child: Text(
-                        AiConfig.instance.isConfigured ? 'સેટિંગ્સ' : 'કી સેટ કરો',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w800,
-                          color: AiConfig.instance.isConfigured
-                              ? AppColors.primaryDark
-                              : Colors.amber.shade900,
-                        ),
-                      ),
-                    ),
+                    const SizedBox(width: 12),
+                    _buildLanguagePill('ગુજરાતી', 'gu', lang == 'gu'),
+                    const SizedBox(width: 6),
+                    _buildLanguagePill('हिन्दी', 'hi', lang == 'hi'),
+                    const SizedBox(width: 6),
+                    _buildLanguagePill('English', 'en', lang == 'en'),
                   ],
                 ),
               ),
@@ -665,32 +596,35 @@ class _AiChatScreenState extends State<AiChatScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Khedut AI Assistant',
-                          style: AppTypography.titleSmall.copyWith(
-                            color: AppColors.primaryDark,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 13,
+                        Flexible(
+                          child: Text(
+                            'Khedut AI Assistant',
+                            style: AppTypography.titleSmall.copyWith(
+                              color: AppColors.primaryDark,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 13,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
+                        const SizedBox(width: 8),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
-                            color: msg.isDemoData
-                                ? const Color(0xFFFEF3C7)
-                                : (msg.isError ? const Color(0xFFFEE2E2) : const Color(0xFFDCFCE7)),
+                            color: msg.isError
+                                ? const Color(0xFFFEE2E2)
+                                : const Color(0xFFDCFCE7),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            msg.isDemoData
-                                ? 'DEMO DATA'
-                                : (msg.isError ? 'ERROR' : 'LIVE AI (₹0)'),
+                            msg.isError ? 'ERROR' : 'AI EXPERT',
                             style: TextStyle(
                               fontSize: 9,
                               fontWeight: FontWeight.w800,
-                              color: msg.isDemoData
-                                  ? Colors.amber.shade900
-                                  : (msg.isError ? Colors.red.shade900 : AppColors.primaryDark),
+                              color: msg.isError
+                                  ? Colors.red.shade900
+                                  : AppColors.primaryDark,
                             ),
                           ),
                         ),

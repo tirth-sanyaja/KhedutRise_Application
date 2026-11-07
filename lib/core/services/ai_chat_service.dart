@@ -638,7 +638,152 @@ Agronomic Recommendations:
       }
     }
 
-    // 14. Greetings & Conversational Queries (નમસ્તે, કેમ છો, hi, hello, how are you)
+    // 14. Flower drop / Boll drop / Fruit drop (ફૂલ ખરવા, જીંડવા ખરવા, flower drop)
+    if (lower.contains('ખરવા') ||
+        lower.contains('ખરી') ||
+        lower.contains('drop') ||
+        lower.contains('flower drop') ||
+        lower.contains('જીંડવા') ||
+        lower.contains('ખરે') ||
+        lower.contains('બોલ ડ્રોપ')) {
+      if (lang == 'gu') {
+        return '''પાકમાં ફૂલ અને જીંડવા/ફળ ખરતા અટકાવવા માટેના ઉપાયો:
+
+• કારણો: જમીનમાં ભેજની અસમતુલા (વધુ પડતું પાણી કે ખેંચ), નાઇટ્રોજનનો અતિરેક અથવા બોરોનની ઉણપ.
+• તાત્કાલિક છંટકાવ:
+  - પ્લાનોફિક્સ (Alpha NAA 4.5% SL) 4.5 મિલી પ્રતિ 15 લીટર પંપમાં ઓગાળી છાંટો.
+  - 00:52:34 ખાતર 75 ગ્રામ + બોરોન 20% (ચીલેટેડ) 25 ગ્રામ પ્રતિ પંપ મિક્સ કરીને છાંટવાથી ફૂલ-જીંડવાની પકડ મજબૂત બને છે.
+• સાવચેતી: પ્લાનોફિક્સની માત્રા 4.5 મિલીથી વધારવી નહીં. જમીનમાં પિયતનું સંતુલન જાળવવું.''';
+      } else if (lang == 'hi') {
+        return '''फूल एवं फल झड़ने से रोकने के उपाय:
+• कारण: नमी का असंतुलन या बोरॉन की कमी।
+• तत्काल उपाय: प्लानोफिक्स (Alpha NAA 4.5% SL) 4.5 मिली प्रति 15 लीटर पंप स्प्रे करें।
+• 00:52:34 (75 ग्राम) + बोरॉन 20% (25 ग्राम) प्रति पंप का छिड़काव करें।
+• अत्यधिक यूरिया के प्रयोग से बचें और संतुलित नमी रखें।''';
+      } else {
+        return '''Flower & Fruit Drop Control:
+• Causes: Moisture stress, excess nitrogen, or boron deficiency.
+• Immediate spray: Planofix (Alpha NAA 4.5% SL) @ 4.5 ml per 15L pump.
+• Nutrient booster: Spray 00:52:34 @ 75g + Boron 20% @ 25g per pump for strong floral retention.
+• Do not overdose NAA. Maintain optimal root-zone moisture.''';
+      }
+    }
+
+    // 15. Plant Growth & Branching (વૃદ્ધિ, ફૂટ, વિકાસ, height, branching)
+    if (lower.contains('વૃદ્ધિ') ||
+        lower.contains('ફૂટ') ||
+        lower.contains('વિકાસ') ||
+        lower.contains('શાખાઓ') ||
+        lower.contains('growth') ||
+        lower.contains('height') ||
+        lower.contains('branching')) {
+      if (lang == 'gu') {
+        return '''પાકની નવી ફૂટ અને શાખાઓના વિકાસ માટે માર્ગદર્શન:
+
+• વૃદ્ધિ અને ફૂટ વધારવા:
+  - NPK 19:19:19 ખાતર 100 ગ્રામ / 15 લીટર પંપમાં ઓગાળી છંટકાવ કરો.
+  - હ્યુમિક એસિડ 98% (Humic Acid) 30 ગ્રામ અથવા સીવીડ એક્સટ્રેક્ટ (Seaweed) 30 મિલી પ્રતિ પંપ આપવાથી મૂળિયાનો જોરદાર વિકાસ થાય છે અને નવી ડાળીઓ ફૂટે છે.
+• દેશી ઉપચાર: ગાયના છાણ-ગૌમૂત્રનું જીવામૃત પિયતના પાણી સાથે આપો.''';
+      } else if (lang == 'hi') {
+        return '''फसल की बढ़वार और कल्ले/शाखाएं बढ़ाने के उपाय:
+• NPK 19-19-19 (100 ग्राम प्रति 15 लीटर पंप) का छिड़काव करें।
+• ह्यूमिक एसिड (30 ग्राम) या समुद्री शैवाल अर्क (30 मिली) प्रति पंप स्प्रे करें।
+• सिंचाई के साथ जीवामृत देने से जड़ों का बेहतर फैलाव होता है।''';
+      } else {
+        return '''Plant Growth & Branching Booster:
+• Spray balanced NPK 19-19-19 @ 100g/15L pump.
+• Add Humic Acid 98% @ 30g or Seaweed Extract @ 30ml/pump for robust root proliferation and profuse branching.
+• Apply liquid Jeevamrut via irrigation water for sustained organic vigor.''';
+      }
+    }
+
+    // 16. Chilli / Mirchi / Leaf curl (મરચી, મરચા, કોકડવા, leaf curl, thrips)
+    if (lower.contains('મરચી') ||
+        lower.contains('મરચા') ||
+        lower.contains('કોકડવા') ||
+        lower.contains('chilli') ||
+        lower.contains('mirchi') ||
+        lower.contains('leaf curl')) {
+      if (lang == 'gu') {
+        return '''મરચીમાં કોકડવા (લીફ કર્લ) અને જીવાત નિયંત્રણ:
+
+• કારણ: થ્રિપ્સ અને સફેદ માખી જેવા ચૂસિયા પાનનો રસ ચૂસીને વાયરસ ફેલાવે છે.
+• ઉપચાર:
+  - પેગાસસ (Diafenthiuron 50% WP) 20 ગ્રામ અથવા એક્સપોનસ (Broflanilide) 5 મિલી / 15 લીટર પંપ.
+  - જો પાન નીચેની બાજુ વળતા હોય (કથીરી): ઓબેરોન (Spiromesifen 22.9% SC) 15 મિલી પ્રતિ પંપ છાંટો.
+  - જૈવિક: એકરે 15 વાદળી અને પીળા સ્ટીકી ટ્રેપ લગાવો અને લીમડાનું તેલ 40 મિલી છાંટો.''';
+      } else if (lang == 'hi') {
+        return '''मिर्च में चुर्रा-मुर्रा (लीफ कर्ल) रोग नियंत्रण:
+• थ्रिप्स एवं माइट्स के कारण पत्तियां मुड़ती हैं।
+• उपचार: डायफेन्थियूरॉन 50% WP (20 ग्राम) या ओबेरॉन (15 मिली) प्रति पंप स्प्रे करें।
+• 10-15 नीले व पीले स्टिकी ट्रैप प्रति एकड़ लगाएं और नीम तेल का उपयोग करें।''';
+      } else {
+        return '''Chilli Leaf Curl & Pest Management:
+• Caused by thrips, whiteflies, and mites spreading virus.
+• Chemical: Diafenthiuron 50% WP @ 20g/pump or Spiromesifen 22.9% SC @ 15ml/pump.
+• Cultural: Deploy 15 yellow and blue sticky traps/acre. Spray Neem oil 1500ppm @ 40ml/pump.''';
+      }
+    }
+
+    // 17. Onion & Garlic (ડુંગળી, લસણ, જાંબલી ધાબા, કરમોડી, onion, garlic)
+    if (lower.contains('ડુંગળી') ||
+        lower.contains('લસણ') ||
+        lower.contains('onion') ||
+        lower.contains('garlic') ||
+        lower.contains('જાંબલી ધાબા')) {
+      if (lang == 'gu') {
+        return '''ડુંગળી અને લસણના પાક સંરક્ષણ માર્ગદર્શન:
+
+• થ્રિપ્સ (પાન પીળા પડી વળી જવા):
+  - ફિપ્રોનિલ 5% SC (30 મિલી) અથવા સ્પીનોટોરમ (18 મિલી) પ્રતિ પંપ છાંટો.
+• જાંબલી ધાબા (Purple Blotch / કરમોડી):
+  - કસ્ટોડિયા (Azoxystrobin + Tebuconazole) 15 મિલી અથવા મેન્કોઝેબ 75% WP 35 ગ્રામ/પંપ છાંટો.
+• કંદ મોટા કરવા: પાકના છેલ્લા પિયત પહેલા 00:00:50 (પોટાશ) એકરે 5 કિગ્રા ડ્રીપમાં આપવું અથવા 100 ગ્રામ/પંપ છાંટવું.''';
+      } else if (lang == 'hi') {
+        return '''प्याज एवं लहसुन फसल प्रबंधन:
+• थ्रिप्स नियंत्रण: फिप्रोनिल 5% SC (30 मिली प्रति पंप) स्प्रे करें।
+• बैंगनी धब्बा (Purple Blotch): एज़ोक्सीस्ट्रोबिन + टेबुकोनाज़ोल (15 मिली) या मैंकोज़ेब का छिड़काव करें।
+• कंद विकास: अंतिम दौर में 00:00:50 (पोटाश) 100 ग्राम प्रति पंप दें।''';
+      } else {
+        return '''Onion & Garlic Crop Care:
+• Thrips: Spray Fipronil 5% SC @ 30ml or Spinetoram @ 18ml/pump.
+• Purple Blotch: Spray Azoxystrobin + Tebuconazole @ 15ml or Mancozeb 75% WP @ 35g/pump.
+• Bulb Enlargement: Foliar spray of SOP 00:00:50 @ 100g/pump during bulb development stage.''';
+      }
+    }
+
+    // 18. Government Schemes & Subsidies (સબસિડી, ikhedut, સહાય, યોજના, subsidy, scheme)
+    if (lower.contains('સબસિડી') ||
+        lower.contains('ikhedut') ||
+        lower.contains('સહાય') ||
+        lower.contains('યોજના') ||
+        lower.contains('subsidy') ||
+        lower.contains('scheme')) {
+      if (lang == 'gu') {
+        return '''ગુજરાત સરકારની ખેડૂત કલ્યાણકારી યોજનાઓ અને સબસિડી:
+
+• iKhedut પોર્ટલ (ikhedut.gujarat.gov.in):
+  - ટ્રેક્ટર અને ખેતી ઓજારો: 40% થી 50% સુધી સરકારી સહાય.
+  - ટપક અને ફુવારા પદ્ધતિ (GGRC): 70% થી 85% સુધી સબસિડી.
+  - કાંટાળી તારની વાડ (Fencing Scheme): એકરે નિયત સહાય.
+  - સોલાર પાવર વોટર પમ્પ (KUSUM યોજના): 90% સબસિડી.
+• અરજી કરવા: ગ્રામ પંચાયતના VCE મારફતે 7/12, 8-A અને બેંક પાસબુક સાથે iKhedut પોર્ટલ પર ઓનલાઇન અરજી કરી શકાય છે.''';
+      } else if (lang == 'hi') {
+        return '''कृषि सरकारी योजनाएं एवं सब्सिडी:
+• पीएम किसान सम्मान निधि: प्रति वर्ष ₹6,000 की वित्तीय सहायता।
+• सूक्ष्म सिंचाई योजना (ड्रिप/स्प्रिंकलर): 70-80% तक सब्सिडी।
+• कुसुम सोलर पंप योजना: 90% अनुदान पर सोलर पंप उपलब्ध।
+• आवेदन हेतु नजदीकी सीएससी केंद्र या कृषि विभाग पोर्टल पर संपर्क करें।''';
+      } else {
+        return '''Key Agricultural Schemes & Subsidies:
+• PM-Kisan Samman Nidhi: ₹6,000 annual direct income support.
+• Micro-Irrigation (Drip/Sprinkler): 70% to 85% subsidy through GGRC / PMKSY.
+• PM-KUSUM Solar Pumps: Subsidized standalone solar irrigation pumps.
+• Apply online at your regional agricultural portal (e.g. ikhedut.gujarat.gov.in) with 7/12 land records and Aadhaar.''';
+      }
+    }
+
+    // 19. Greetings & Conversational Queries (નમસ્તે, કેમ છો, hi, hello, how are you)
     if (lower.contains('નમસ્તે') ||
         lower.contains('કેમ છો') ||
         lower.contains('તમે કોણ') ||

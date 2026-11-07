@@ -253,18 +253,15 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         scrolledUnderElevation: 0,
-        leadingWidth: 52,
+        leadingWidth: 60,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 14, top: 7, bottom: 7),
-          child: Container(
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-            ),
-            child: ClipOval(
-              child: Image.asset(
-                AppImages.appLogo,
-                fit: BoxFit.cover,
-              ),
+          padding: const EdgeInsets.only(left: 14, top: 6, bottom: 6),
+          child: SizedBox(
+            width: 44,
+            height: 44,
+            child: Image.asset(
+              AppImages.appLogo,
+              fit: BoxFit.contain,
             ),
           ),
         ),
